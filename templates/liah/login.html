@@ -1,0 +1,224 @@
+ <!DOCTYPE html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>NEXUS — Acesso Seguro</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="{% static 'liah/css/login.css' %}">
+
+  <script src="{% static 'liah/js/login.js' %}" defer></script>
+</head>
+<body>
+
+
+  <!-- ═══════════════════════════════════════════════
+       BACKGROUND LAYER
+       ═══════════════════════════════════════════════ -->
+  <div class="bg-canvas">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+    <div class="blob blob-5"></div>
+    <div class="mesh-grid"></div>
+    <div class="light-streak streak-1"></div>
+    <div class="light-streak streak-2"></div>
+    <div class="light-streak streak-3"></div>
+    <canvas id="particles-canvas"></canvas>
+  </div>
+  <div class="cursor-glow" id="cursor-glow"></div>
+  <div class="noise-overlay"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════════════ -->
+  <main class="main-container">
+    <section class="login-card" id="login-card" aria-label="Login Form">
+
+      <!-- Header -->
+      <header class="card-header">
+        <div class="brand-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <path d="M24 4L6 14v20l18 10 18-10V14L24 4z" stroke="url(#iconGrad)" stroke-width="2" fill="none"/>
+            <path d="M24 4v40M6 14l18 10 18-10M6 34l18-10 18 10" stroke="url(#iconGrad)" stroke-width="1.5" opacity="0.5"/>
+            <circle cx="24" cy="24" r="5" fill="url(#iconGrad)" opacity="0.8"/>
+            <defs>
+              <linearGradient id="iconGrad" x1="6" y1="4" x2="42" y2="44">
+                <stop offset="0%" stop-color="#00e5ff"/>
+                <stop offset="100%" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h1 class="card-title">Welcome Back</h1>
+        <p class="card-subtitle">Sign in to your Nexus account to continue</p>
+      </header>
+
+      <!-- Form -->
+      <form class="form-body" id="login-form" novalidate autocomplete="off">
+
+        <!-- Email -->
+        <div class="input-group" id="email-group">
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="3"/>
+              <path d="M2 7l10 6 10-6"/>
+            </svg>
+            <input
+              type="email"
+              class="input-field"
+              id="email"
+              name="email"
+              placeholder="Email address"
+              autocomplete="email"
+              spellcheck="false"
+            />
+            <label class="floating-label" for="email">Email address</label>
+          </div>
+          <div class="error-message" id="email-error">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span></span>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="input-group" id="password-group">
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="3"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            <input
+              type="password"
+              class="input-field"
+              id="password"
+              name="password"
+              placeholder="Password"
+              autocomplete="current-password"
+            />
+            <label class="floating-label" for="password">Password</label>
+            <button type="button" class="password-toggle" id="toggle-password" aria-label="Toggle password visibility" tabindex="-1">
+              <svg id="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg id="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+          <div class="error-message" id="password-error">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span></span>
+          </div>
+          <div class="password-strength" id="password-strength">
+            <div class="strength-bar" id="str-1"><div class="fill"></div></div>
+            <div class="strength-bar" id="str-2"><div class="fill"></div></div>
+            <div class="strength-bar" id="str-3"><div class="fill"></div></div>
+            <div class="strength-bar" id="str-4"><div class="fill"></div></div>
+          </div>
+          <div class="strength-text" id="strength-text"></div>
+        </div>
+
+        <!-- Meta row -->
+        <div class="meta-row">
+          <label class="checkbox-wrapper">
+            <input type="checkbox" id="remember" name="remember" />
+            <div class="custom-checkbox">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <span class="checkbox-label">Remember me</span>
+          </label>
+          <a href="#" class="forgot-link" onclick="event.preventDefault();">Forgot password?</a>
+        </div>
+
+        <!-- Login button -->
+        <button type="submit" class="login-btn" id="login-btn">
+          <span class="btn-content">
+            <span>Sign In</span>
+            <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </span>
+          <div class="btn-spinner">
+            <div class="spinner"></div>
+          </div>
+          <div class="btn-success-icon">
+            <svg class="success-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">or</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- Social login -->
+      <div class="social-row">
+        <button type="button" class="social-btn" aria-label="Sign in with Google">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" opacity="0.8"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" opacity="0.7"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" opacity="0.6"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" opacity="0.8"/>
+          </svg>
+        </button>
+        <button type="button" class="social-btn" aria-label="Sign in with Apple">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+          </svg>
+        </button>
+        <button type="button" class="social-btn" aria-label="Sign in with GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Footer -->
+      <footer class="card-footer">
+        <p>Don't have an account? <a href="#" class="register-link" onclick="event.preventDefault();">Create one</a></p>
+      </footer>
+
+      <!-- Success Overlay -->
+      <div class="success-overlay" id="success-overlay">
+        <div class="success-ring">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <div class="success-title">Welcome back!</div>
+        <div class="success-subtitle">Redirecting to your dashboard...</div>
+      </div>
+
+    </section>
+  </main>
+
+</body>
+</html>
