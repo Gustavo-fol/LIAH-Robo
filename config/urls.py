@@ -15,11 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path
-from liah.views import index
-from django.urls import include
+
+from liah.views import index, painel, api_chat
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index),
+    path('', index, name='home'),
+    path('login/', auth_views.LoginView.as_view(template_name='liah/login.html'), name='login'),
+    path('painel/', painel, name='painel'),
+    path('api/chat/', api_chat, name='api_chat'),
 ]
