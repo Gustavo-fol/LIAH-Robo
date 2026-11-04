@@ -1,0 +1,19 @@
+{% extends "liah/base.html" %}
+{% load static %}
+{% block titulo %}Conversar{% endblock %}
+
+{% block conteudo %}
+<div class="miolo pagina-interna pagina-estreita">
+  <header class="pagina-cab">
+    <h1>Conversar com a Liah</h1>
+    <p>As últimas interações aparecem abaixo e novas mensagens são gravadas na memória da sua conta.</p>
+  </header>
+  {% url 'api_chat' as chat_url %}
+  {% url 'api_historico' as hist_url %}
+  {% include "liah/_palco.html" with endpoint=chat_url historico=hist_url grande=True %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'liah/js/console.js' %}" defer></script>
+{% endblock %}

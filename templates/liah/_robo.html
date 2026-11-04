@@ -1,0 +1,62 @@
+{# Robô da Liah (SVG). Use: {% include "liah/_robo.html" %}  — apenas UM por página (os ids dos gradientes são fixos). #}
+<svg class="bot" data-estado="idle" viewBox="0 0 400 520" role="img" aria-label="Liah, um robô de cabeça arredondada com o rosto em um visor luminoso">
+  <defs>
+    <radialGradient id="rb-head" cx="35%" cy="26%" r="85%"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#dde9f4"/><stop offset="1" stop-color="#93aecb"/></radialGradient>
+    <linearGradient id="rb-body" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b79b3"/><stop offset="1" stop-color="#12304e"/></linearGradient>
+    <linearGradient id="rb-limb" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#274f78"/><stop offset=".5" stop-color="#3b79b3"/><stop offset="1" stop-color="#1b4166"/></linearGradient>
+    <linearGradient id="rb-visor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1829"/><stop offset="1" stop-color="#040910"/></linearGradient>
+    <radialGradient id="rb-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#5de1ed" stop-opacity=".30"/><stop offset="1" stop-color="#5de1ed" stop-opacity="0"/></radialGradient>
+  </defs>
+
+  <ellipse class="bot-aura" cx="200" cy="250" rx="190" ry="225" fill="url(#rb-glow)"/>
+  <ellipse class="bot-shadow" cx="200" cy="502" rx="96" ry="13"/>
+
+  <g class="bot-root">
+    <!-- pernas -->
+    <g transform="translate(166 418)"><g class="leg leg-l"><rect x="-17" y="0" width="34" height="58" rx="16" fill="url(#rb-limb)"/><ellipse cx="-3" cy="64" rx="31" ry="14" fill="#0f2840"/></g></g>
+    <g transform="translate(234 418)"><g class="leg leg-r"><rect x="-17" y="0" width="34" height="58" rx="16" fill="url(#rb-limb)"/><ellipse cx="3" cy="64" rx="31" ry="14" fill="#0f2840"/></g></g>
+
+    <!-- pescoço e tronco -->
+    <rect x="184" y="258" width="32" height="36" rx="10" fill="#0f2840"/>
+    <rect x="132" y="282" width="136" height="150" rx="62" fill="url(#rb-body)"/>
+    <path d="M148 316 Q150 298 176 293" stroke="#fff" stroke-opacity=".28" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <rect x="164" y="326" width="72" height="48" rx="15" fill="#07111f"/>
+    <circle class="chest-led" cx="200" cy="344" r="9"/>
+    <rect x="178" y="361" width="14" height="4" rx="2" fill="#5de1ed" opacity=".55"/>
+    <rect x="208" y="361" width="14" height="4" rx="2" fill="#5de1ed" opacity=".3"/>
+
+    <!-- braços (cada um gira em torno do ombro) -->
+    <g transform="translate(133 308)"><g class="arm arm-l"><rect x="-14" y="-10" width="28" height="92" rx="14" fill="url(#rb-limb)"/><circle cx="0" cy="88" r="17" fill="#e4eef8"/></g></g>
+    <g transform="translate(267 308)"><g class="arm arm-r"><rect x="-14" y="-10" width="28" height="92" rx="14" fill="url(#rb-limb)"/><circle cx="0" cy="88" r="17" fill="#e4eef8"/></g></g>
+
+    <!-- cabeça -->
+    <g transform="translate(200 172)"><g class="head">
+      <line x1="0" y1="-94" x2="0" y2="-128" stroke="#7d97b3" stroke-width="5" stroke-linecap="round"/>
+      <circle class="antenna" cx="0" cy="-135" r="9"/>
+      <rect x="-126" y="-24" width="24" height="54" rx="11" fill="#2f6aa3"/>
+      <rect x="102" y="-24" width="24" height="54" rx="11" fill="#2f6aa3"/>
+      <ellipse rx="112" ry="100" fill="url(#rb-head)"/>
+      <path d="M-86 -68 Q-60 -92 -22 -94" stroke="#fff" stroke-opacity=".75" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <rect x="-86" y="-56" width="172" height="104" rx="44" fill="url(#rb-visor)" stroke="#5de1ed" stroke-opacity=".38" stroke-width="2"/>
+      <path d="M-62 -42 Q-30 -52 0 -50" stroke="#5de1ed" stroke-opacity=".16" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+      <g class="face" transform="translate(0 -4)">
+        <g class="eyes eyes-open">
+          <g transform="translate(-38 -6)"><g class="look"><rect class="eye eye-l" x="-13" y="-21" width="26" height="42" rx="13"/></g></g>
+          <g transform="translate(38 -6)"><g class="look"><rect class="eye eye-r" x="-13" y="-21" width="26" height="42" rx="13"/></g></g>
+        </g>
+        <g class="eyes eyes-happy"><path d="M-52 2 Q-38 -18 -24 2"/><path d="M24 2 Q38 -18 52 2"/></g>
+        <g class="eyes eyes-sleep"><path d="M-52 -2 Q-38 8 -24 -2"/><path d="M24 -2 Q38 8 52 -2"/></g>
+        <circle class="cheek" cx="-64" cy="20" r="9"/>
+        <circle class="cheek" cx="64" cy="20" r="9"/>
+        <g transform="translate(0 32)"><g class="mouth"><path d="M-17 0 Q0 11 17 0"/></g></g>
+        <g class="dots" transform="translate(0 34)"><circle cx="-14" cy="0" r="4"/><circle cx="0" cy="0" r="4"/><circle cx="14" cy="0" r="4"/></g>
+      </g>
+      <text class="q-mark" x="104" y="-86">?</text>
+    </g></g>
+
+    <!-- notas musicais (dança) e zzz (descanso) -->
+    <g class="notes" aria-hidden="true"><text class="note n1" x="58" y="250">♪</text><text class="note n2" x="326" y="214">♫</text><text class="note n3" x="306" y="340">♪</text></g>
+    <g class="zs" aria-hidden="true"><text class="z z1" x="286" y="92">z</text><text class="z z2" x="312" y="66">z</text><text class="z z3" x="340" y="38">z</text></g>
+  </g>
+</svg>

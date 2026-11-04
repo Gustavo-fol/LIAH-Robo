@@ -1,12 +1,82 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>LIAH</title>
-</head>
-<body>
+{% extends "liah/base.html" %}
+{% load static %}
+{% block titulo %}Converse com a Liah{% endblock %}
+{% block body_class %}pagina-inicio{% endblock %}
 
-    <h1>Olá, eu sou a LIAH!</h1>
+{% block conteudo %}
+<section class="heroi">
+  <div class="miolo">
+    <div class="heroi-centro">
+      <h1>Converse com a Liah</h1>
+      <p class="lead">Um robô em construção. Escreva, use os atalhos ou peça uma dança.</p>
+    </div>
+    <div class="heroi-palco">
+      {% url 'api_demo' as demo_url %}
+      {% include "liah/_palco.html" with endpoint=demo_url largo=True boas_vindas=True %}
+      <p class="palco-legenda">Modo demonstração: as respostas não são gravadas.{% if not user.is_authenticated %} <a href="{% url 'login' %}">Entre</a> para salvar a memória.{% endif %}</p>
+    </div>
+  </div>
+</section>
 
-</body>
-</html>
+<section class="bloco" id="decisao" data-pipeline data-status-url="{% url 'api_status' %}">
+  <div class="miolo">
+    <h2>Como a Liah decide o que responder</h2>
+    <p class="bloco-intro">Cada mensagem passa pelo mesmo caminho. Toque em uma etapa para entender o que ela faz; depois de conversar com a Liah, o caminho usado fica aceso.</p>
+
+    <ol class="fluxo" data-fluxo>
+      <li><button type="button" class="no" data-no="mensagem" aria-pressed="true"><span class="no-nome">Mensagem</span><span class="no-sub">texto limpo</span></button></li>
+      <li><button type="button" class="no" data-no="regras" aria-pressed="false"><span class="no-nome">Regras</span><span class="no-sub">frases conhecidas</span></button></li>
+      <li><button type="button" class="no no-reserva" data-no="llm" aria-pressed="false"><span class="no-nome">LLM local</span><span class="no-sub">reserva, opcional</span></button></li>
+      <li><button type="button" class="no" data-no="resposta" aria-pressed="false"><span class="no-nome">Resposta</span><span class="no-sub">validada pelo código</span></button></li>
+    </ol>
+
+    <div class="fluxo-detalhe" aria-live="polite">
+      <p data-detalhe>O texto é limpo antes de qualquer decisão: minúsculas, sem acento, sem pontuação e com no máximo 500 caracteres.</p>
+      <p class="fluxo-leitura" data-leitura>Ainda sem mensagens nesta visita.</p>
+    </div>
+  </div>
+</section>
+
+<section class="bloco bloco-estado" id="estado">
+  <div class="miolo">
+    <h2>O que já funciona e o que ainda não existe</h2>
+    <p class="bloco-intro">O projeto é modular e está no começo. Esta tabela mostra cada parte com a situação real.</p>
+    <div class="tabela-rolagem">
+    <table class="tabela">
+      <thead><tr><th scope="col">Parte</th><th scope="col">Situação</th><th scope="col">Detalhe</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Núcleo de regras</th><td><span class="selo selo-pronto">funcionando</span></td><td>Reconhece saudação, identidade, status, ajuda, dança e despedida.</td></tr>
+        <tr><th scope="row">Memória</th><td><span class="selo selo-pronto">funcionando</span></td><td>Guarda as 50 últimas interações de cada usuário logado.</td></tr>
+        <tr><th scope="row">API local</th><td><span class="selo selo-pronto">funcionando</span></td><td>Rotas de conversa, status e histórico, com login e limite de uso.</td></tr>
+        <tr><th scope="row">Interface web</th><td><span class="selo selo-pronto">funcionando</span></td><td>Esta página, o painel e o chat.</td></tr>
+        <tr><th scope="row">Rosto e dança</th><td><span class="selo selo-sim">simulado</span></td><td>Animação em tela; o display físico virá com o hardware.</td></tr>
+        <tr><th scope="row">LLM local</th><td><span class="selo selo-opc" data-llm-selo>desligado</span></td><td>Opcional e gratuito (Ollama). Só entra quando nenhuma regra serve.</td></tr>
+        <tr><th scope="row">Voz</th><td><span class="selo selo-plan">planejado</span></td><td>Microfone, reconhecimento de fala e síntese de voz.</td></tr>
+        <tr><th scope="row">Corpo e sensores</th><td><span class="selo selo-plan">planejado</span></td><td>Estrutura impressa em 3D, servomotores e Raspberry Pi.</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="tabela-ao-vivo" data-ao-vivo>Lendo o estado do servidor…</p>
+  </div>
+</section>
+
+<section class="bloco" id="etapas">
+  <div class="miolo">
+    <h2>Etapas do projeto</h2>
+    <ol class="etapas">
+      <li class="etapa etapa-atual"><strong>Protótipo conversacional</strong><span>Agora. Regras, memória, API e interface.</span></li>
+      <li class="etapa"><strong>Inteligência artificial avançada</strong><span>Mais contexto e melhor compreensão da linguagem.</span></li>
+      <li class="etapa"><strong>Comunicação por voz</strong><span>Microfone, fala e alto-falante.</span></li>
+      <li class="etapa"><strong>Construção do corpo</strong><span>Modelagem 3D, impressão e eletrônica.</span></li>
+      <li class="etapa"><strong>Integração</strong><span>Software, display, sensores e movimentos juntos.</span></li>
+      <li class="etapa"><strong>Testes</strong><span>Usuários reais, falhas e ajustes.</span></li>
+      <li class="etapa"><strong>Expansão</strong><span>Novos sensores, expressões e aplicações.</span></li>
+    </ol>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'liah/js/console.js' %}" defer></script>
+<script src="{% static 'liah/js/index.js' %}" defer></script>
+{% endblock %}

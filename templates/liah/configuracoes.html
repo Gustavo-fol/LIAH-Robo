@@ -1,0 +1,48 @@
+{% extends "liah/base.html" %}
+{% load static %}
+{% block titulo %}Configurações{% endblock %}
+
+{% block conteudo %}
+<div class="miolo pagina-interna pagina-estreita">
+  <header class="pagina-cab">
+    <h1>Configurações</h1>
+    <p>Preferências deste navegador e estado do sistema.</p>
+  </header>
+
+  <section class="cartao" data-prefs>
+    <h2>Movimento do robô</h2>
+    <p class="cartao-nota">Reduza as animações se elas incomodam. “Automático” segue a configuração do seu sistema operacional.</p>
+    <fieldset class="opcoes">
+      <legend class="so-leitor">Movimento do robô</legend>
+      <label><input type="radio" name="movimento" value="auto" checked> Automático</label>
+      <label><input type="radio" name="movimento" value="normal"> Sempre animar</label>
+      <label><input type="radio" name="movimento" value="reduzido"> Reduzir animações</label>
+    </fieldset>
+    <h2 class="cartao-sub">Voz</h2>
+    <label class="opcoes-linha"><input type="checkbox" name="falar"> Ler as respostas em voz alta (usa a voz do navegador)</label>
+  </section>
+
+  <section class="cartao">
+    <h2>Sistema</h2>
+    <dl class="lista-dl">
+      <div><dt>Versão</dt><dd>{{ estado.versao }}</dd></div>
+      <div><dt>Etapa</dt><dd>{{ estado.etapa }}</dd></div>
+      <div><dt>LLM local</dt><dd>{{ estado.llm }}</dd></div>
+      <div><dt>Intenções conhecidas</dt><dd>{{ estado.intencoes|join:", " }}</dd></div>
+    </dl>
+  </section>
+
+  <section class="cartao">
+    <h2>Ligar o LLM local (opcional)</h2>
+    <p class="cartao-nota">Por padrão a Liah usa só regras. Depois de instalar o Ollama e baixar um modelo, ligue pelo terminal antes de iniciar o servidor:</p>
+    <pre class="codigo">$env:LIAH_USAR_LLM = "1"
+$env:LIAH_MODELO = "llama3.2"
+python manage.py runserver</pre>
+    <p class="cartao-nota">Se o Ollama não estiver disponível, a Liah continua respondendo por regras.</p>
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'liah/js/configuracoes.js' %}" defer></script>
+{% endblock %}

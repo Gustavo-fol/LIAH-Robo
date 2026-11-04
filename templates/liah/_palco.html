@@ -1,0 +1,28 @@
+{# Palco = robô + console de conversa. Parâmetros: endpoint (obrigatório), historico, grande, largo, boas_vindas #}
+<div class="palco{% if largo %} palco-largo{% endif %}" data-palco{% if boas_vindas %} data-boas-vindas{% endif %}>
+  <div class="palco-topo">
+    <span class="estado-chip"><span class="ponto" aria-hidden="true"></span><span data-estado-texto>em espera</span></span>
+    <label class="falar"><input type="checkbox" data-falar> Falar as respostas</label>
+  </div>
+  <div class="palco-esq">
+    <div class="palco-robo">{% include "liah/_robo.html" %}</div>
+    <button type="button" class="btn btn-danca" data-dancar aria-pressed="false">Dançar</button>
+  </div>
+  <section class="console{% if grande %} console-grande{% endif %}" data-console data-endpoint="{{ endpoint }}"{% if historico %} data-historico="{{ historico }}"{% endif %} aria-label="Conversa com a Liah">
+    <ol class="console-log" data-log aria-live="polite">
+      <li class="msg msg-sistema"><p>Escreva uma mensagem ou toque em um atalho.</p></li>
+    </ol>
+    <div class="atalhos" role="group" aria-label="Atalhos">
+      <button type="button" class="chip" data-msg="Olá, Liah">Olá</button>
+      <button type="button" class="chip" data-msg="Quem é você?">Quem é você?</button>
+      <button type="button" class="chip" data-msg="O que você consegue fazer?">O que você faz?</button>
+      <button type="button" class="chip chip-destaque" data-msg="Dance!">Pedir uma dança</button>
+      <button type="button" class="chip" data-msg="Tchau">Tchau</button>
+    </div>
+    <form class="console-form" autocomplete="off">
+      <label class="so-leitor" for="campo-{{ endpoint|slugify }}">Mensagem para a Liah</label>
+      <input id="campo-{{ endpoint|slugify }}" name="mensagem" type="text" maxlength="500" placeholder="Escreva para a Liah…" required>
+      <button class="btn btn-cian" type="submit">Enviar</button>
+    </form>
+  </section>
+</div>

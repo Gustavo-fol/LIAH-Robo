@@ -1,0 +1,47 @@
+{% load static %}<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>{% block titulo %}Início{% endblock %} · Liah-Robo</title>
+  <script>try{var m=localStorage.getItem("liah-movimento");if(m==="reduzido"||m==="normal")document.documentElement.dataset.movimento=m}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+  <link rel="stylesheet" href="{% static 'liah/css/app.css' %}">
+  <link rel="stylesheet" href="{% static 'liah/css/robo.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  {% include "liah/_topo.html" %}
+  {% if messages %}
+    <div class="avisos" role="status">
+      {% for m in messages %}<p class="aviso aviso-{{ m.tags }}">{{ m }}</p>{% endfor %}
+    </div>
+  {% endif %}
+  <dialog class="sobre" id="sobre" aria-labelledby="sobre-titulo">
+    <div class="sobre-corpo">
+      <h2 id="sobre-titulo">Sobre a Liah</h2>
+      <p class="sobre-lead">Escreva uma mensagem e acompanhe três coisas ao mesmo tempo: a resposta, o caminho que ela percorreu dentro do sistema e a expressão no rosto do robô.</p>
+      <p class="sobre-nota">Este é um protótipo de software. A conversa com a Liah roda de verdade; o corpo, a voz e o display físico ainda estão em planejamento.</p>
+      <p>A Liah-Robo é um robô interativo compacto, de até cerca de 40 cm, feito para estudar a comunicação entre pessoas e máquinas. O projeto é construído em módulos: primeiro o software, depois voz, corpo e eletrônica.</p>
+      <form method="dialog"><button class="btn btn-prim" type="submit">Fechar</button></form>
+    </div>
+  </dialog>
+  <main id="conteudo">{% block conteudo %}{% endblock %}</main>
+  {% block rodape %}
+  <footer class="rodape">
+    <div class="miolo">
+      <p><strong>Liah-Robo</strong> — protótipo em desenvolvimento. Etapa 1 de 7: núcleo conversacional.</p>
+      <p class="rodape-nota">Esta versão responde por regras e roda em simulação. Voz, display físico e corpo ainda não existem.</p>
+    </div>
+  </footer>
+  {% endblock %}
+  <script src="{% static 'liah/js/api.js' %}" defer></script>
+  <script src="{% static 'liah/js/robo.js' %}" defer></script>
+  <script src="{% static 'liah/js/sobre.js' %}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

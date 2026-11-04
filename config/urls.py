@@ -18,12 +18,18 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from liah.views import index, painel, api_chat
+from liah import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='home'),
-    path('login/', auth_views.LoginView.as_view(template_name='liah/login.html'), name='login'),
-    path('painel/', painel, name='painel'),
-    path('api/chat/', api_chat, name='api_chat'),
+    path('', views.index, name='home'),
+    path('login/', auth_views.LoginView.as_view(template_name='liah/login.html', redirect_authenticated_user=True), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('painel/', views.painel, name='painel'),
+    path('chat/', views.chat, name='chat'),
+    path('configuracoes/', views.configuracoes, name='configuracoes'),
+    path('api/demo/', views.api_demo, name='api_demo'),
+    path('api/chat/', views.api_chat, name='api_chat'),
+    path('api/status/', views.api_status, name='api_status'),
+    path('api/historico/', views.api_historico, name='api_historico'),
 ]

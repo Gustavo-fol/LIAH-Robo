@@ -1,9 +1,58 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8">
-  <meta name="csrf-token" content="{{ csrf_token }}">
-  <title>Painel · Liah</title>
-</head>
-<body><h1>Painel</h1></body>
-</html>
+{% extends "liah/base.html" %}
+{% load static %}
+{% block titulo %}Painel{% endblock %}
+
+{% block conteudo %}
+<div class="miolo pagina-interna">
+  <header class="pagina-cab">
+    <h1>Painel</h1>
+    <p>Olá, {{ user.get_username }}. Aqui você vê o estado do sistema e conversa com a Liah; tudo o que você escrever fica na sua memória.</p>
+  </header>
+
+  <div class="duas-colunas">
+    <div>
+      {% url 'api_chat' as chat_url %}
+      {% url 'api_historico' as hist_url %}
+      {% include "liah/_palco.html" with endpoint=chat_url historico=hist_url %}
+    </div>
+
+    <div class="lateral">
+      <section class="cartao">
+        <h2>Sistema</h2>
+        <dl class="lista-dl">
+          <div><dt>Versão</dt><dd>{{ estado.versao }}</dd></div>
+          <div><dt>Etapa</dt><dd>{{ estado.etapa }}</dd></div>
+          <div><dt>LLM local</dt><dd>{{ estado.llm }}</dd></div>
+          <div><dt>Memória</dt><dd>{{ total }} de 50 interações</dd></div>
+        </dl>
+      </section>
+
+      <section class="cartao">
+        <h2>Hardware</h2>
+        <ul class="lista-hw">
+          {% for nome, situacao in estado.hardware.items %}
+            <li><span>{{ nome|cut:"_"|capfirst }}</span><span class="selo selo-{% if situacao == 'simulado' %}sim{% else %}plan{% endif %}">{{ situacao }}</span></li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section class="cartao">
+        <h2>Últimas interações</h2>
+        {% if recentes %}
+          <ul class="lista-rec">
+            {% for i in recentes %}
+              <li><span class="rec-msg">{{ i.mensagem }}</span><span class="rec-meta">{{ i.intent }} · {{ i.criada_em|date:"d/m H:i" }}</span></li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="vazio">Nenhuma interação ainda. Escreva uma mensagem à esquerda para começar.</p>
+        {% endif %}
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'liah/js/console.js' %}" defer></script>
+{% endblock %}
